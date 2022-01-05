@@ -4,6 +4,7 @@ import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 
 const Quiz = props => {
   const [activeQuestion, setActiveQuestion] = React.useState(0)
+  const [answerState, setAnswerState] = React.useState(null)
   const [quizes, setQuizes] = React.useState([
     {
       id: 1,
@@ -29,10 +30,31 @@ const Quiz = props => {
     }
   ])
 
-  const onAnswerClickHandler = (answerId) => {
-    console.log(answerId)
+  const isQuizFinished = () => {
+    return activeQuestion + 1 === quizes.length
+  }
 
-    setActiveQuestion(activeQuestion + 1)
+  const onAnswerClickHandler = (answerId) => {
+    const question = quizes[activeQuestion]
+
+    if (question.rightAnswerId === answerId) {
+
+      setAnswerState({[answerId]: 'success'})
+
+      const timeout = window.setTimeout(() => {
+        if (isQuizFinished()) {
+          console.log("Finished")
+        } else {
+          setActiveQuestion(activeQuestion + 1)
+          setAnswerState(null)
+        }
+
+        window.clearTimeout(timeout)
+      }, 1000)
+
+    } else {
+      setAnswerState({[answerId]: 'error'})
+    }
   }
   
   return (
@@ -45,6 +67,7 @@ const Quiz = props => {
           onAnswerClick={onAnswerClickHandler}
           quizLength={quizes.length}
           answerNumber={activeQuestion + 1}
+          state={answerState}
         />
       </div>
     </div>
