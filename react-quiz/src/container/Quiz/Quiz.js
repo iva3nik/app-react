@@ -3,17 +3,36 @@ import s from './Quiz.module.css'
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 
 const Quiz = props => {
-  const [question, setQuestion] = React.useState('Какого цвета небо?')
-  const [listAnswers, setListAnswers] = React.useState([
-    {text: 'Чёрный', id: 1},
-    {text: 'Синий', id: 2},
-    {text: 'Красный', id: 3},
-    {text: 'Зелёный', id: 4}
+  const [activeQuestion, setActiveQuestion] = React.useState(0)
+  const [quizes, setQuizes] = React.useState([
+    {
+      id: 1,
+      question: 'Какого цвета небо?',
+      rightAnswerId: 2,
+      answers: [
+        {text: 'Чёрный', id: 1},
+        {text: 'Синий', id: 2},
+        {text: 'Красный', id: 3},
+        {text: 'Зелёный', id: 4}
+      ]
+    },
+    {
+      id: 2,
+      question: 'В каком году основали Санкт-Петербург?',
+      rightAnswerId: 3,
+      answers: [
+        {text: '1700', id: 1},
+        {text: '1702', id: 2},
+        {text: '1703', id: 3},
+        {text: '1803', id: 4}
+      ]
+    }
   ])
-  const [rightAnswerId, setRightAnswerId] = React.useState(2)
 
   const onAnswerClickHandler = (answerId) => {
     console.log(answerId)
+
+    setActiveQuestion(activeQuestion + 1)
   }
   
   return (
@@ -21,9 +40,11 @@ const Quiz = props => {
       <div className={s.QuizWrapper}>
         <h1>Ответить на все вопросы</h1>
         <ActiveQuiz
-          answers={listAnswers}
-          question={question}
+          answers={quizes[activeQuestion].answers}
+          question={quizes[activeQuestion].question}
           onAnswerClick={onAnswerClickHandler}
+          quizLength={quizes.length}
+          answerNumber={activeQuestion + 1}
         />
       </div>
     </div>
