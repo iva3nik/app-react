@@ -1,17 +1,19 @@
 import React, {Component} from 'react'
 import s from './Quiz.module.css'
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
+import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
 
 const Quiz = props => {
   const [activeQuestion, setActiveQuestion] = React.useState(0)
   const [answerState, setAnswerState] = React.useState(null)
+  const [isFinished, setIsFinished] = React.useState(true)
   const [quizes, setQuizes] = React.useState([
     {
       id: 1,
       question: 'Какого цвета небо?',
       rightAnswerId: 2,
       answers: [
-        {text: 'Чёрный', id: 1},
+        {text: 'Чёрный', id: 1}, 
         {text: 'Синий', id: 2},
         {text: 'Красный', id: 3},
         {text: 'Зелёный', id: 4}
@@ -43,7 +45,7 @@ const Quiz = props => {
 
       const timeout = window.setTimeout(() => {
         if (isQuizFinished()) {
-          console.log("Finished")
+          setIsFinished(true)
         } else {
           setActiveQuestion(activeQuestion + 1)
           setAnswerState(null)
@@ -61,14 +63,21 @@ const Quiz = props => {
     <div className={s.Quiz}>
       <div className={s.QuizWrapper}>
         <h1>Ответить на все вопросы</h1>
-        <ActiveQuiz
-          answers={quizes[activeQuestion].answers}
-          question={quizes[activeQuestion].question}
-          onAnswerClick={onAnswerClickHandler}
-          quizLength={quizes.length}
-          answerNumber={activeQuestion + 1}
-          state={answerState}
-        />
+        {
+          isFinished
+            ? <FinishedQuiz
+            
+              />
+            : <ActiveQuiz
+                answers={quizes[activeQuestion].answers}
+                question={quizes[activeQuestion].question}
+                onAnswerClick={onAnswerClickHandler}
+                quizLength={quizes.length}
+                answerNumber={activeQuestion + 1}
+                state={answerState}
+              />
+        }
+        
       </div>
     </div>
   )
