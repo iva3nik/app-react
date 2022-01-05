@@ -2,11 +2,13 @@ import React, {Component} from 'react'
 import s from './Quiz.module.css'
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
+import AnswerItem from '../../components/ActiveQuiz/AnswersList/AnswerItem/AnswerItem'
 
 const Quiz = props => {
   const [activeQuestion, setActiveQuestion] = React.useState(0)
   const [answerState, setAnswerState] = React.useState(null)
-  const [isFinished, setIsFinished] = React.useState(true)
+  const [isFinished, setIsFinished] = React.useState(false)
+  const [resultsQuiz, setResultsQuiz] = React.useState({})
   const [quizes, setQuizes] = React.useState([
     {
       id: 1,
@@ -38,8 +40,13 @@ const Quiz = props => {
 
   const onAnswerClickHandler = (answerId) => {
     const question = quizes[activeQuestion]
+    const results = resultsQuiz
 
     if (question.rightAnswerId === answerId) {
+      if (!results[question.id])  {
+        results[question.id] = 'success'
+        setResultsQuiz(results)
+      }
 
       setAnswerState({[answerId]: 'success'})
 
@@ -55,8 +62,17 @@ const Quiz = props => {
       }, 1000)
 
     } else {
+      results[question.id] = 'error'
+      setResultsQuiz(results)
       setAnswerState({[answerId]: 'error'})
     }
+  }
+
+  const retryHandler = () => {
+    setActiveQuestion(0)
+    setAnswerState(null)
+    setIsFinished(false)
+    setResultsQuiz({})
   }
   
   return (
@@ -66,7 +82,9 @@ const Quiz = props => {
         {
           isFinished
             ? <FinishedQuiz
-            
+                results={resultsQuiz}
+                quizes={quizes}
+                onRetry={retryHandler}
               />
             : <ActiveQuiz
                 answers={quizes[activeQuestion].answers}
