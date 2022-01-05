@@ -3,12 +3,18 @@ import s from './Quiz.module.css'
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 
 const Quiz = props => {
+  const [question, setQuestion] = React.useState('Какого цвета небо?')
   const [listAnswers, setListAnswers] = React.useState([
-    {text: 'Вопрос 1'},
-    {text: 'Вопрос 2'},
-    {text: 'Вопрос 3'},
-    {text: 'Вопрос 4'}
+    {text: 'Чёрный', id: 1},
+    {text: 'Синий', id: 2},
+    {text: 'Красный', id: 3},
+    {text: 'Зелёный', id: 4}
   ])
+  const [rightAnswerId, setRightAnswerId] = React.useState(2)
+
+  const onAnswerClickHandler = (answerId) => {
+    console.log(answerId)
+  }
   
   return (
     <div className={s.Quiz}>
@@ -16,6 +22,8 @@ const Quiz = props => {
         <h1>Ответить на все вопросы</h1>
         <ActiveQuiz
           answers={listAnswers}
+          question={question}
+          onAnswerClick={onAnswerClickHandler}
         />
       </div>
     </div>
