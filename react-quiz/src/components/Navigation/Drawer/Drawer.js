@@ -1,17 +1,31 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 import s from './Drawer.module.css'
 import Backdrop from '../../UI/Backdrop/Backdrop'
 
 const Drawer = props => {
   const links = [
-    1, 2, 3
+    {to: '/', label: 'Список', exact: true},
+    {to: '/auth', label: 'Авторизация', exact: false},
+    {to: '/quiz-creator', label: 'Создать тест', exact: false},
   ]
+
+  const clickHandler = () => {
+    props.onClose()
+  }
 
   const renderLinks = () => {
     return links.map((link, index) => {
       return (
         <li key={index}>
-          <a>Link {link}</a>
+          <NavLink
+            to={link.to}
+            exact={link.exact}
+            activeClassName={s.active}
+            onClick={clickHandler}
+          >
+            {link.label}
+          </NavLink>
         </li>
       )
     }) 
