@@ -1,6 +1,7 @@
 import React from 'react'
 import s from './Auth.module.css'
 import Button from '../../components/UI/Button/Button'
+import Input from '../../components/UI/Input/Input'
 
 const Auth = props => {
   const loginHandler = () => {
@@ -21,8 +22,13 @@ const Auth = props => {
         <h1>Авторизация</h1>
 
         <form onSubmit={submitHandler} className={s.AuthForm}>
-          <input type='text' />
-          <input type='text' />
+          <Input
+            label="Email"
+          />
+          <Input
+            label='Пароль'
+            errorMessage='test'
+          />
 
           <Button
             type='success'
