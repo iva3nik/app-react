@@ -20,8 +20,8 @@ const Drawer = props => {
         <li key={index}>
           <NavLink
             to={link.to}
-            exact={link.exact}
-            activeClassName={s.active}
+            exact={link.exact.toString()}
+            activeclassname={s.active}
             onClick={clickHandler}
           >
             {link.label}
