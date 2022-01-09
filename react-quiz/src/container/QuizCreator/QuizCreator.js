@@ -4,6 +4,7 @@ import Button from '../../components/UI/Button/Button'
 import { createControl, validate, validateForm } from '../../form/formFramework'
 import Input from '../../components/UI/Input/Input'
 import Select from '../../components/UI/Select/Select'
+import axios from 'axios'
 
 const QuizCreator = props => {
   const createFormControls = () => {
@@ -98,10 +99,19 @@ const QuizCreator = props => {
     setFormControls(createFormControls())
   }
 
-  const createQuizHandler = (e) => {
+  const createQuizHandler = async (e) => {
     e.preventDefault()
 
-    console.log(quiz)
+    try {
+      const response = await axios.post('https://quiz-react-c5b2b-default-rtdb.firebaseio.com/quizes.json', quiz)
+      
+      setQuiz([])
+      setIsFormValid(false)
+      setRightAnswer(1)
+      setFormControls(createFormControls())
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const selectChangeHandler = (e) => {
