@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react'
 import {NavLink} from 'react-router-dom'
 import s from './QuizList.module.css'
 import axios from 'axios'
+import Loader from '../../components/UI/Loader/Loader'
 
 const QuizList = props => {
   const [quizes, setQuizes] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const response = axios.get('https://quiz-react-c5b2b-default-rtdb.firebaseio.com/quizes.json')
@@ -18,6 +20,7 @@ const QuizList = props => {
             })
           })
           setQuizes(quizesList)
+          setIsLoading(false)
         })
   }, [])
 
@@ -39,10 +42,13 @@ const QuizList = props => {
     <div className={s.QuizList}>
       <div>
         <h1>Список тестов</h1>
-
-        <ul>
-          {renderQuizes()}
-        </ul>
+        {
+          isLoading
+            ? <Loader />
+            : <ul>
+                {renderQuizes()}
+              </ul>
+        }
       </div>
     </div>
   )
