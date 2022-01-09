@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {NavLink} from 'react-router-dom'
 import s from './QuizList.module.css'
-import axios from 'axios'
+import axios from '../../axios/axios-quiz'
 import Loader from '../../components/UI/Loader/Loader'
 
 const QuizList = props => {
@@ -9,7 +9,7 @@ const QuizList = props => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const response = axios.get('https://quiz-react-c5b2b-default-rtdb.firebaseio.com/quizes.json')
+    const response = axios.get('/quizes.json')
       response
         .then((res) => {
           const quizesList = []
@@ -22,6 +22,7 @@ const QuizList = props => {
           setQuizes(quizesList)
           setIsLoading(false)
         })
+        .catch(err => console.log(err))
   }, [])
 
   const renderQuizes = () => {
