@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import s from './Auth.module.css'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
+import axios from 'axios'
 
 const Auth = props => {
   const [isFormValid, setIsFormValid] = useState(false)
@@ -32,12 +33,32 @@ const Auth = props => {
     }
   })
 
-  const loginHandler = () => {
+  const loginHandler = async () => {
+    const authData = {
+      email: formControls.email.value,
+      password: formControls.password.value,
+      returnSecureToken: true
+    }
 
+    try {
+      const response = axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[AIzaSyCvle_QKdZA720KX_YCIys1JixsV1EdD6c]', authData)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
-  const registerHandler = () => {
+  const registerHandler = async () => {
+    const authData = {
+      email: formControls.email.value,
+      password: formControls.password.value,
+      returnSecureToken: true
+    }
 
+    try {
+      const response = axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[AIzaSyCvle_QKdZA720KX_YCIys1JixsV1EdD6c]', authData)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const submitHandler = (e) => {
